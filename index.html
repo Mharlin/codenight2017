@@ -1,0 +1,414 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Så här blir du funktionell i ditt vanliga språk</title>
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css">
+
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <section data-markdown>
+            <script type="text/template">
+              ## Så här blir du funktionell i ditt vanliga språk
+
+              <p><small>Magnus Härlin</small></br>
+              <small>@MagnusHarlin</small></br>
+              <small>github.com/Mharlin/codenight2017</small></br>
+              <img alt="SpeedLedger" src="./image/speedledger.png" style="border:0px; margin:0px; padding:0px" width="300px" />
+            </script>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Why functional</h3>
+            <span class="fragment">
+              <img alt="Hipsters" src="./image/hipsters.jpg" style="border:0; height:500px" />
+            </span>
+
+            <aside class="notes">
+              Because all the hipsters do it</br>
+
+              buzzwordz like immutable data, first class functions, tail call optimization.
+              They aid functional programming but you don't need to understand them to use it. </br>
+              mapping, reducing, pipelining, recursing, currying and higher order functions. Constructs used
+              to write functional code.</br>
+              parallelization, lazy evaluation and determinism. Advantageous properties of functional programming
+            </aside>
+          </section>
+
+          <section data-markdown data-noescape>
+            <script type="text/template">
+              ## Functional and OO
+
+              <img alt="Michael Fethers" style="float: right" src="./image/michaelfeathers.jpg" />
+
+              <div style="display: block">
+                OO makes code understandable by ***encapsulating*** moving parts.
+                <br/><br/>
+
+                FP makes code understandable by ***minimizing*** moving parts.
+                <br/><br/>
+                <small>Micheal Feathers, author of "Working effectively with Legacy Code"</small>
+              </div>
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ## OO
+              * Tricky
+              * Prototypes
+              * this
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ## Functional code is characterised by absense of side effects
+            </script>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              <b>Data flow and transformation</b>
+              <span class="fragment"><i>instead of how objects interract</i></span>
+            </script>
+          </section>
+
+          <section>
+            <h3>Pure functions</h3>
+            <klipse-snippet data-language="javascript">
+              var name = "Magnus"
+
+              function greet() {
+                console.log("Hi, I am " + name)
+              }
+
+              greet()
+            </klipse-snippet>
+
+            <span class="fragment">
+              <klipse-snippet data-language="javascript">
+                function greet(name) {
+                  return "Hi " + name
+                }
+
+                greet("Codenight")
+              </klipse-snippet>
+            </span>
+
+            <aside class="notes">
+              Impure first part: global state and side effect in function
+            </aside>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Don't iterate... <span class="fragment"><i>Transform</i></span></h3>
+            <img src="./image/transformation.jpg" />
+            <div>
+              <small>
+                <a href="https://commons.wikimedia.org/wiki/File:Transformation.JPG">
+                  Didacool @ wikimedia</a>
+              </small>
+            </div>
+          </section>
+
+          <section>
+            <klipse-snippet data-language="javascript">
+              function greet(name) { return "Hi " + name; }
+
+              function addExclamation (str, exclamation) {
+                return str.trimRight() + exclamation
+              }
+
+              const names = ["magnus", "codenight"];
+              var greetings = [];
+
+              for(var i = 0; i < names.length; i++) {
+                greetings[i] =  addExclamation(greet(names[i]), "!");
+              }
+
+              greetings
+            </klipse-snippet>
+          </section>
+
+          <section>
+            <h3>Higher order functions</h3>
+            <img src="./image/higherorder.jpg" />
+            <div>
+              <a href="https://www.flickr.com/photos/jamesjordan/2226419650"><small>jamesjordan @ flickr</small></a>
+            </div>
+            <aside class="notes">
+              Function that takes function as arguments or function that returns a function
+            </aside>
+          </section>
+
+          <section>
+            <pre>
+              <code class="javascript" data-trim data-noescape>
+                const greet = name => "Hi " + name
+                <span class="fragment">const greetAndAddExclamation = (greetfn, name) => 
+                  exclamation => greetfn(name).trimRight() + exclamation</span>
+
+                <span class="fragment">function greetAndAddExclamation (greetfn, name) {
+                  return function (exclamation) { 
+                    greetfn(name).trimRight() + exclamation 
+                  }
+                }</span>
+                <span class="fragment">greetAndAddExclamation(greet, "magnus ")("!")</span>
+              </code>
+            </pre>
+            <aside class="notes">
+              Arrow notation, common in functional languages
+            </aside>
+          </section>
+
+          <section>
+            <klipse-snippet data-language="javascript">
+              const greet = name => "Hi " + name
+
+              const greetAndAddExclamation = (greetfn, name) => 
+                exclamation => greetfn(name).trimRight() + exclamation
+
+              function greetAndAddExclamation (greetfn, name) {
+                return function (exclamation) { 
+                  greetfn(name).trimRight() + exclamation 
+                }
+              }
+
+              greetAndAddExclamation(greet, "magnus ")("!")
+            </klipse-snippet>
+          </section>
+
+          <section>
+            <h3>map, reduce, filter</h3>
+            <img src="./image/mapreduce.png" />
+            <aside class="notes">
+              Map - Slice - function applied to each ingridient
+              Reduced - Combine - Adds the chopped ingridients togheter
+              Filter - if we don't want all ingridients
+            </aside>
+          </section>
+
+          <section>
+            <pre>
+              <code class="javascript" data-trim data-noescape>
+                const greet = name => "Hi " + name
+                const names = ["magnus", "codenight"]
+
+                <span class="fragment">names.map</span><span class="fragment">(greet)</span>
+                <span class="fragment">     .map(x => x.trimRight() + exclamation)</span>
+              </code>
+            </pre>
+            <aside class="notes">
+              Two different ways of passing a function
+            </aside>
+          </section>
+
+          <section>
+            <klipse-snippet data-language="javascript">
+              const greet = name => "Hi " + name
+              const names = ["magnus", "codenight"]
+
+              names.map(greet).map(x => x.trimRight() + exclamation)
+            </klipse-snippet>
+          </section>
+        </section>
+
+        <section>
+          <section>
+            <h3>Composition</h3>
+            <pre>
+                <code class="javascript" data-trim data-noescape>
+                  const greet = name => "Hi " + name
+
+                  const addExclamation = exclamation => str => 
+                    str.trimRight() + exclamation
+
+                  <span class="fragment" data-fragment-index=1>const capitalize = name => 
+                    name[0].toUpperCase() + name.substr(1)</span>
+
+                  <span class="fragment" data-fragment-index=2>addExclamation("!")(greet(capitalize("magnus")))</span>
+                </code>
+            </pre>
+            <aside class="notes">
+              composition is used in graphQL to make the resolvers
+              ie. user, company, address / resolvers to go from user => company => address
+            </aside>
+          </section>
+
+          <section>
+            <klipse-snippet data-language="javascript">
+              //const compose = (...fns) => fns.reduceRight((f, g) => (...args) => f(g(...args)))
+
+              const capitalize = name => name[0].toUpperCase() + name.substr(1);
+
+              const greet = name => "Hi " + name
+              const addExclamation = exclamation => str => str.trimRight() + exclamation
+
+              //const addGreetingAndExclamation = compose(greet, addExclamation("!"))
+
+              addExclamation("!")(greet(capitalize("magnus")))
+            </klipse-snippet>
+
+            <aside class="notes">
+              ... = spread operator, deconstracts array into multiple arguments
+              add capitalize as the first parameter in the compose function
+            </aside>
+          </section>
+        </section>
+
+        <section>
+
+          <section>
+            <h3>Mutable state is the new spaghetti code</h3>
+            <img alt="Spaghetti code" src="./image/spaghetti.jpg" height="500px" />
+            </br>
+            <small>
+              <a href="https://www.flickr.com/photos/oskay/2177296503">oskay @ flickr</a>
+            </small>
+            <aside class="notes">
+              Easier to compare objects
+              Copied objects can point to the same memory
+              Goes well with the React / Redux architecture
+            </aside>
+          </section>
+
+          <section data-markdown>
+            <script type="text/template">
+              ### Efficient immutability
+              * <a href="http://swannodette.github.io/mori/">Mori</a>
+              * <a href="http://facebook.github.io/immutable-js/">Immutable.js</a>
+            </script>
+          </section>
+
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### FP libraries for JS
+            * <a href="http://underscorejs.org">Undrescore</a>
+            * <a href="https://lodash.com">Lodash</a>
+            * <a href="http://ramdbajs.com">Ramda</a>
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template" >
+            ## Thank you!
+            <img alt="Tama66 / pixabay" src="./image/hope.jpg" style="border:0; width:450px" />
+
+            Please let me know what you thought about the session @MagnusHarlin
+
+            The slides are available at https://mharlin.github.io/codenight2017/
+          </script>
+        </section>
+
+      </div>
+    </div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			Reveal.initialize({
+        zoomLevel: 4,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/zoom-js/zoom.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+
+    <script src='./plugin/repl/klipse_reveal.js'> </script>
+
+  <script>
+var PrintRevealNotes = function() {
+    /* Open the window */
+    var w = window.open('about:blank'); /* Open a blank window */
+
+    /* Write the titles */
+    var doctitle = "Speaker notes for " + document.title + " Presentation";
+    w.document.write('<html><head><title>' + doctitle + '</title></head><body>');
+    w.document.write('<center><h1>' + doctitle + '</h1></center>');
+
+    /* Search for slides */
+    var slidesContainer = document.getElementsByClassName('slides')[0]; /* The parent element to search for slides and notes */
+    var slides = []; /* The list of unique slides (no containers) */
+    var allSlides = slidesContainer.getElementsByTagName('section'); /* All slides, even container ones */
+
+    /* Filter the slides (remove the container slides) */
+    for (var e in allSlides) {
+        if (allSlides.hasOwnProperty(e)) { /* Make sure it is not an inherited object property */
+            var el = allSlides[e];
+            if (el.parentNode.tagName == "SECTION") { /* If it is in another slide, then it is a subslide */
+                slides.push(el);
+            } else { /* Not a subslide; either a container or a orphan slide */
+                var isOwnSlide = true; /* Default to is an orphan slide */
+                /* Check if not an orphan slide */
+                for (var i in el.children) { /* Search for sub-slides by looping through children */
+                    if (el.children.hasOwnProperty(i)) { /* Make sure it is not an inherited object property */
+                        if (el.children[i].tagName == "SECTION") { /* Contains another slide, skip it */
+                            isOwnSlide = false; /* Skip the slide */
+                        }
+                    }
+                }
+                if (isOwnSlide) { /* If it does not contain another slide, then it is an orphan slide */
+                    slides.push(el);
+                }
+            }
+        }
+    }
+
+    /* Write the notes page */
+    var num = 0;
+    for (var slide in slides) {
+        if (slides.hasOwnProperty(slide)) { /* Make sure it is not an inherited object property */
+            var el = slides[slide];
+            var titleel = el.querySelector('h1, h2, h3, h4, h5, h6') || document.createElement('h1'); /* Look for a slide title, or create a blank one */
+            num++;
+            var title = num + ". " + titleel.innerText; /* Don't keep the html */
+            var notesel = el.querySelector('aside.notes') || document.createElement('aside'); /* Look for notes, or create a blank one */
+            var notes = notesel.innerHTML; /* Keep the html for formatting */
+            w.document.write('<br><b>' + title + '</b><br>' + notes + '<br>');
+
+        }
+    }
+
+    /* Write the stylesheet */
+    w.document.write(
+        '<style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800);body{padding:20px;color:#8e8071;font-size:15px;font-family:"Open Sans",AppleSDGothicNeo-Medium,"Segoe UI","Malgun Gothic",sans-serif;background:#fff;-webkit-font-smoothing:antialiased}a{color:#3269a0}a:hover{color:#4183c4}h1,h2,h3,h4,h5{font-weight:400;color:#5c5146;letter-spacing:-1px}h2{border-bottom:1px solid #e6e6e6;line-height:1.7em}h6{color:#777}hr{border:1px solid #e6e6e6}p{line-height:19px}p>code{font-family:"Open Sans",AppleSDGothicNeo-Medium,"Segoe UI","Malgun Gothic",sans-serif;color:#e86741;font-size:.9em}pre>code{font-size:1em;font-family:"Open Sans",AppleSDGothicNeo-Medium,"Segoe UI","Malgun Gothic",sans-serif;letter-spacing:-1px;font-weight:400}blockquote{border-left:4px solid #e6e6e6;padding:0 15px;font-style:italic;color:#e86741}table{background-color:#fafafa}table tr td,table tr th{border:1px solid #e6e6e6}table tr:nth-child(2n){background-color:#f2f2f2}</style></body></html>'
+    );
+
+    /* Finish up */
+    w.document.close(); /* Close the document to prevent endless load on firefox */
+    w.window.print(); /* Open the print dialog */
+};
+
+  </script>
+	</body>
+</html>

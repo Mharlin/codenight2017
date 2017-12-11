@@ -1,0 +1,88 @@
+Why functional (JavaScript)
+  To learn new buzzwordz like immutable data, first class functions, tail call optimization. They aid functional
+  programming but you don't need to understand them to use it.
+  mapping, reducing, pipelining, recursing, currying and higher order functions. Constructs used to write functional
+  code.
+  parallelization, lazy evaluation and determinism. Advantageous properties of functional programming
+  Because hipsters use it? - hipster image
+  Ignore all that, functional code is characterised by one thing, absense of side effects.
+  OO
+    Tricky
+    Prototypes
+    this
+  JavaScript
+    avoid many of the problems from the OO part
+
+What is functional JavaScript
+  How data flows and is transforrmed
+    Instead of how objects interract
+
+Example
+  Non functional - Imparitive
+    var name = "Magnus"
+    var greeting = "Hi, I'm "
+    console.log("gretting + name")
+    => "Hi, I'm Magnus"
+
+  Functional way
+    function greet(name) {
+      return "Hi, I'm " + name
+    }
+    => "Hi, I'm Magnus"
+
+Avoid side effects
+  Use pure functions
+    Functions that only uses input values and returns the result
+    No side effects
+  Not pure example
+    Reads global state and does not return a value
+    var name = "Magnus"
+    function greet() {
+      console.log("Hi, I'm " + name)
+    }
+
+    Pure example
+      Only thing that matters to the function is it's input
+      function greet(name) {
+        return "Hi, I'm " + name
+      }
+
+Higher order functions
+  Functions that returns functions
+    Example from talk 9:31 into the talk
+
+Don't iterate transform
+  map, reduce, filter
+  map reduce sandwich, source grunt-json-mapreduce @ npm,
+  https://raw.githubusercontent.com/ducin/grunt-json-mapreduce/master/docs/map-reduce-example.png
+  slice function that we want to apply to each ingridient
+  instead of for vegetable in sandwich ingridient
+  function way. Map with slice function and send in each ingridient
+  We send in list of ingridients and get a list of chopped ingridients out
+  Reduce functions combines the items of the list in this case to layer them into a sandwich
+  Filter: If there is a ingridient that we don't like we can use filter to say that only ingridients that are not for
+  example onion will get through the filter
+
+Avoid mutability
+  Mutable state is the new 
+  Immutable, something that can't be changed after creation
+  to change data, use map and map it into a new array with the new values in that array
+
+Immutable data structures
+  to avoid always having to copy everything. Could be memory innefficient
+  Persistent data structures
+  Tree with nodes of all values. When chaning a value just change to pointer of the tree from the old value to the new.
+  Only the new value will be created in memory and the rest are reused
+  Structural sharing to get more efficient operations
+  Popular libraries for immutable data. mori builds on clojure script, immutable.js by facebook
+  Other utility libraries for functional programming unserscore.js, lodash, ramda
+  Arrays has map, reduce functions.... can be used with vanilla js
+
+How to get started
+  https://codewords.recurse.com/issues/one/an-introduction-to-functional-programming
+  "An introduction to function programming by Mary Rose Cook" great introduction that focuses on how to get started in a
+  very practical way with the most important concepts of functional programming and how to get started.
+
+
+
+
