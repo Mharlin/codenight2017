@@ -135,7 +135,9 @@
 
           <section>
             <klipse-snippet data-language="javascript">
-              function greet(name) { return "Hi " + name }
+              function greet(name) { 
+                return "Hi " + name 
+              }
 
               function addExclamation (str, exclamation) {
                 return str.trimRight() + exclamation
@@ -167,6 +169,7 @@
             <pre>
               <code class="javascript" data-trim data-noescape>
                 const greet = name => "Hi " + name
+
                 <span class="fragment">const greetAndAddExclamation = (greetfn, name) => 
                   exclamation => greetfn(name).trimRight() + exclamation</span>
 
@@ -175,6 +178,7 @@
                     greetfn(name).trimRight() + exclamation 
                   }
                 }</span>
+
                 <span class="fragment">greetAndAddExclamation(greet, "magnus ")("!")</span>
               </code>
             </pre>
@@ -216,8 +220,11 @@
                 const greet = name => "Hi " + name
                 const names = ["magnus", "codenight"]
 
+                const addExclamation = 
+                  (str, exclamation) => str.trimRight() + exclamation
+
                 <span class="fragment">names.map</span><span class="fragment">(greet)</span>
-                <span class="fragment">     .map(x => x.trimRight() + exclamation)</span>
+                <span class="fragment">     .map(x => addExclamation(x, "!"))</span>
               </code>
             </pre>
             <aside class="notes">
@@ -229,8 +236,9 @@
             <klipse-snippet data-language="javascript">
               const greet = name => "Hi " + name
               const names = ["magnus", "codenight"]
+              const addExclamation = (str, exclamation) => str.trimRight() + exclamation
 
-              names.map(greet).map(x => x.trimRight() + exclamation)
+              names.map(greet).map(x => addExclamation(x, "!"))
             </klipse-snippet>
           </section>
         </section>
@@ -242,8 +250,8 @@
                 <code class="javascript" data-trim data-noescape>
                   const greet = name => "Hi " + name
 
-                  const addExclamation = exclamation => str => 
-                    str.trimRight() + exclamation
+                  const addExclamation = exclamation => 
+                    str => str.trimRight() + exclamation
 
                   <span class="fragment" data-fragment-index=1>const capitalize = name => 
                     name[0].toUpperCase() + name.substr(1)</span>
@@ -251,10 +259,6 @@
                   <span class="fragment" data-fragment-index=2>addExclamation("!")(greet(capitalize("magnus")))</span>
                 </code>
             </pre>
-            <aside class="notes">
-              composition is used in graphQL to make the resolvers
-              ie. user, company, address / resolvers to go from user => company => address
-            </aside>
           </section>
 
           <section>
@@ -277,11 +281,6 @@
             </aside>
           </section>
 
-          <section>
-            apply all
-            apply all parallell
-          </section>
-
         </section>
 
         <section>
@@ -298,6 +297,27 @@
               Copied objects can point to the same memory
               Goes well with the React / Redux architecture
             </aside>
+          </section>
+
+          <section>
+            <h3>Concurrency</h3>
+            <pre>
+                <code class="javascript" data-trim data-noescape>
+                  const validLength = name => name.length <= 6
+
+                  const onlyValidChars = 
+                    name => ['!', '?'].every(c => !name.includes(c))
+
+                  <span class="fragment">const applyAllPar = ( ... fns ) => 
+                    arg => fns.par.map(f => f(arg))</span>
+
+                  <span class="fragment">const validations = applyAllPar(validateLength, validateChars)</span>
+
+                  <span class="fragment">const names = new Parallel(["codenight", "magnus"])</span>
+
+                  <span class="fragment">names.filter(validations).map(addGreetingAndExclamation)</span>
+                </code>
+            </pre>
           </section>
 
           <section data-markdown>

@@ -17,7 +17,7 @@ let jsSrc = (lang) => {
 
 let createIFrame = (lang,src) => {
     let selectorName = langToSelectorName[lang];
-    return `<iframe sandbox="allow-scripts" style="height:300px" width="100%" srcdoc='
+    return `<iframe sandbox="allow-scripts" style="height:370px" width="100%" srcdoc='
     <pre><code class=&quot;klipse&quot;>${src}</code></pre>
 
       <link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;https://storage.googleapis.com/app.klipse.tech/css/codemirror.css&quot;>
