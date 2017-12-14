@@ -315,7 +315,8 @@
 
                   <span class="fragment">const names = new Parallel(["codenight", "magnus"])</span>
 
-                  <span class="fragment">names.filter(validations).map(addGreetingAndExclamation)</span>
+                  <span class="fragment">names.filter(validations.every(Boolean))
+                       .map(addGreetingAndExclamation)</span>
                 </code>
             </pre>
           </section>
