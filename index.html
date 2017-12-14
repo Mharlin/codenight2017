@@ -47,7 +47,7 @@
             <aside class="notes">
               Because all the hipsters do it</br>
 
-              buzzwordz like immutable data, first class functions, tail call optimization.
+              buzzwords like immutable data, first class functions, tail call optimization.
               They aid functional programming but you don't need to understand them to use it. </br>
               mapping, reducing, pipelining, recursing, currying and higher order functions. Constructs used
               to write functional code.</br>
@@ -74,10 +74,9 @@
 
           <section data-markdown>
             <script type="text/template">
-              ## OO
-              * Tricky
-              * Prototypes
-              * this
+              ## Imperative
+              * State
+              * Concurrency even harder
             </script>
           </section>
 
@@ -90,7 +89,7 @@
           <section data-markdown>
             <script type="text/template">
               <b>Data flow and transformation</b>
-              <span class="fragment"><i>instead of how objects interract</i></span>
+              <span class="fragment"><i>instead of how objects interact</i></span>
             </script>
           </section>
 
@@ -124,7 +123,7 @@
 
         <section>
           <section>
-            <h3>Don't iterate... <span class="fragment"><i>Transform</i></span></h3>
+            <h3>Don't iterate with mutable state... <span class="fragment"><i>Transform</i></span></h3>
             <img src="./image/transformation.jpg" />
             <div>
               <small>
@@ -136,17 +135,17 @@
 
           <section>
             <klipse-snippet data-language="javascript">
-              function greet(name) { return "Hi " + name; }
+              function greet(name) { return "Hi " + name }
 
               function addExclamation (str, exclamation) {
                 return str.trimRight() + exclamation
               }
 
-              const names = ["magnus", "codenight"];
-              var greetings = [];
+              const names = ["magnus", "codenight"]
+              var greetings = []
 
               for(var i = 0; i < names.length; i++) {
-                greetings[i] =  addExclamation(greet(names[i]), "!");
+                greetings[i] =  addExclamation(greet(names[i]), "!")
               }
 
               greetings
@@ -191,7 +190,7 @@
               const greetAndAddExclamation = (greetfn, name) => 
                 exclamation => greetfn(name).trimRight() + exclamation
 
-              function greetAndAddExclamation (greetfn, name) {
+              function greetAndAddExclamation2 (greetfn, name) {
                 return function (exclamation) { 
                   greetfn(name).trimRight() + exclamation 
                 }
@@ -202,12 +201,12 @@
           </section>
 
           <section>
-            <h3>map, reduce, filter</h3>
+            <h3>transform with map, reduce, filter</h3>
             <img src="./image/mapreduce.png" />
             <aside class="notes">
-              Map - Slice - function applied to each ingridient
-              Reduced - Combine - Adds the chopped ingridients togheter
-              Filter - if we don't want all ingridients
+              Map - Slice - function applied to each ingredient
+              Reduced - Combine - Adds the chopped ingredients together
+              Filter - if we don't want all ingredients
             </aside>
           </section>
 
@@ -238,7 +237,7 @@
 
         <section>
           <section>
-            <h3>Composition</h3>
+            <h3>Function composition</h3>
             <pre>
                 <code class="javascript" data-trim data-noescape>
                   const greet = name => "Hi " + name
@@ -262,7 +261,7 @@
             <klipse-snippet data-language="javascript">
               //const compose = (...fns) => fns.reduceRight((f, g) => (...args) => f(g(...args)))
 
-              const capitalize = name => name[0].toUpperCase() + name.substr(1);
+              const capitalize = name => name[0].toUpperCase() + name.substr(1)
 
               const greet = name => "Hi " + name
               const addExclamation = exclamation => str => str.trimRight() + exclamation
@@ -277,6 +276,12 @@
               add capitalize as the first parameter in the compose function
             </aside>
           </section>
+
+          <section>
+            apply all
+            apply all parallell
+          </section>
+
         </section>
 
         <section>
@@ -308,9 +313,9 @@
         <section data-markdown>
           <script type="text/template">
             ### FP libraries for JS
-            * <a href="http://underscorejs.org">Undrescore</a>
+            * <a href="http://underscorejs.org">Underscore</a>
             * <a href="https://lodash.com">Lodash</a>
-            * <a href="http://ramdbajs.com">Ramda</a>
+            * <a href="http://ramdajs.com">Ramda</a>
           </script>
         </section>
 
